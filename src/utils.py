@@ -21,3 +21,14 @@ def add_data(session: Session, table: Base, data: dict) -> None:
 
     session.add(table(**data))
     session.commit()
+
+
+@db_session
+def delete_data(session: Session, table: Base, main_id: int) -> None:
+    """Функция удаления данных из БД."""
+
+    data = session.query(table).filter_by(id=main_id).first()
+
+    if data:
+        session.delete(data)
+        session.commit()
