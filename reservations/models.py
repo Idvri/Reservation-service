@@ -11,7 +11,7 @@ class Reservation(Base):
 
     id: Mapped[Integer] = mapped_column(Integer, autoincrement=True, primary_key=True)
     customer_name: Mapped[String] = mapped_column(String)
-    table_id: Mapped[Integer] = mapped_column(ForeignKey("table.id"))
-    table: Mapped["Table"] = relationship(back_populates="reservation")
     reservation_time: Mapped[DateTime] = mapped_column(DateTime)
     duration_minutes: Mapped[Integer] = mapped_column(Integer)
+    table_id: Mapped[Integer] = mapped_column(ForeignKey("table.id"))
+    table: Mapped["Table"] = relationship(back_populates="reservations")

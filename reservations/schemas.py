@@ -33,7 +33,11 @@ class CreateReservationSchema(BaseModel):
         return value
 
 
-class ReservationSchema(CreateReservationSchema):
+class ReservationSchema(BaseModel):
     """Модель брони для отображения."""
 
     id: int
+    customer_name: str
+    table_id: int
+    duration_minutes: int
+    reservation_time: datetime.datetime

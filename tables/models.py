@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -13,4 +15,4 @@ class Table(Base):
     name: Mapped[String] = mapped_column(String)
     seats: Mapped[Integer] = mapped_column(Integer)
     location: Mapped[String] = mapped_column(String)
-    reservation: Mapped["Reservation"] = relationship(back_populates="table")
+    reservations: Mapped[List["Reservation"]] = relationship(back_populates="table", lazy="joined")

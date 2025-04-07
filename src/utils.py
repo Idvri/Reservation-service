@@ -12,7 +12,7 @@ def get_data(session: Session, table: Base) -> Sequence[Row[Any] | RowMapping | 
 
     query = select(table)
     data = session.execute(query)
-    result = data.scalars().all()
+    result = data.scalars().unique().all()
 
     return result
 
@@ -23,7 +23,7 @@ def get_object(session: Session, table: Base, obj_id: int) -> Sequence | None:
 
     query = select(table).where(table.id == obj_id)
     data = session.execute(query)
-    result = data.scalars().one_or_none()
+    result = data.scalars().unique().one_or_none()
 
     return result
 
