@@ -3,20 +3,6 @@ import datetime
 from pydantic import BaseModel
 
 
-class CreateTableSchema(BaseModel):
-    """Модель столика для создания."""
-
-    name: str
-    seats: int
-    location: str
-
-
-class TableSchema(CreateTableSchema):
-    """Модель столика для отображения."""
-
-    id: int
-
-
 class CreateReservationSchema(BaseModel):
     """Модель брони для создания."""
 
@@ -30,5 +16,3 @@ class ReservationSchema(CreateReservationSchema):
 
     id: int
     reservation_time: datetime.datetime
-
-
