@@ -1,16 +1,29 @@
-from sqlalchemy import Sequence, select
+from typing import Any
+
+from sqlalchemy import Sequence, select, Row, RowMapping
 from sqlalchemy.orm import Session
 
 from .config import db_session, Base
 
 
 @db_session
-def get_data(session: Session, table: Base) -> Sequence:
+def get_data(session: Session, table: Base) -> Sequence[Row[Any] | RowMapping | Any]:
     """Функция получения данных из БД."""
 
     query = select(table)
     data = session.execute(query)
     result = data.scalars().all()
+
+    return result
+
+
+@db_session
+def get_object(session: Session, table: Base, obj_id: int) -> Sequence | None:
+    """Функция получения объекта из БД."""
+
+    query = select(table).where(table.id == obj_id)
+    data = session.execute(query)
+    result = data.scalars().one_or_none()
 
     return result
 

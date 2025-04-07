@@ -13,4 +13,4 @@ class Table(Base):
     name: Mapped[String] = mapped_column(String)
     seats: Mapped[Integer] = mapped_column(Integer)
     location: Mapped[String] = mapped_column(String)
-    reservation: Mapped["Reservation"] = relationship(back_populates="table", uselist=False)
+    reservation: Mapped["Reservation"] = relationship(back_populates="table")
