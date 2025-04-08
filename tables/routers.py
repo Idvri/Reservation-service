@@ -1,11 +1,13 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 
-from src import get_data, add_data, delete_data
+from src import get_data, add_data, delete_data, get_object
 from .models import Table
 from .schemas import CreateTableSchema, TableSchema
+from .utils import check_table_reservation
 
 tables_router = APIRouter()
 
@@ -26,5 +28,20 @@ def add_table(data: CreateTableSchema):
 @tables_router.delete("/tables/{table_id}", response_model=BaseModel)
 def delete_table(table_id: int):
     """Ручка для удаления столика из БД."""
+
+    table = get_object(Table, table_id)
+    if not table:
+        raise HTTPException(
+            status_code=HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Столик не найден."
+        )
+
+    if not check_table_reservation(table_id):
+        raise HTTPException(
+            status_code=HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="На данный момент бронь по столику активна, "
+                   "дождитесь окончания брони либо удалите её, перед удалением столика."
+        )
+
     delete_data(Table, table_id)
     return {"message": "Столик удален."}

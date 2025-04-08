@@ -13,5 +13,5 @@ class Reservation(Base):
     customer_name: Mapped[String] = mapped_column(String)
     reservation_time: Mapped[DateTime] = mapped_column(DateTime)
     duration_minutes: Mapped[Integer] = mapped_column(Integer)
-    table_id: Mapped[Integer] = mapped_column(ForeignKey("table.id"))
+    table_id: Mapped[Integer] = mapped_column(ForeignKey("table.id", ondelete="CASCADE"))
     table: Mapped["Table"] = relationship(back_populates="reservations")
