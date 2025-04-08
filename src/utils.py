@@ -29,11 +29,14 @@ def get_object(session: Session, table: Base, obj_id: int) -> Sequence | None:
 
 
 @db_session
-def add_data(session: Session, table: Base, data: dict) -> None:
+def add_data(session: Session, table: Base, data: dict) -> Base:
     """Функция добавления данных в БД."""
 
-    session.add(table(**data))
+    obj = table(**data)
+    session.add(obj)
     session.commit()
+    session.refresh(obj)
+    return obj
 
 
 @db_session

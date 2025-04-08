@@ -11,7 +11,6 @@ class CreateReservationSchema(BaseModel):
     duration_minutes: int
     reservation_time: datetime.datetime
 
-
     @field_validator('customer_name', mode="before")
     @classmethod
     def validate_customer_name(cls, value) -> str:
