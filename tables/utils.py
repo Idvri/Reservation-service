@@ -5,10 +5,10 @@ from src import get_object
 from .models import Table
 
 
-def check_table_reservation(table_id) -> bool:
+async def check_table_reservation(table_id) -> bool:
     """Проверка наличия брони по столику, в данный момент времени."""
 
-    table = get_object(Table, table_id)
+    table = await get_object(Table, table_id)
 
     for reservation in table.reservations:
         current_time = datetime.datetime.now()

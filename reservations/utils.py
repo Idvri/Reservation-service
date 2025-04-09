@@ -4,10 +4,10 @@ from src import get_object
 from tables import Table
 
 
-def check_reservation_time(table_id, reservation_time):
+async def check_reservation_time(table_id, reservation_time):
     """Проверка конфликтов во времени брони."""
 
-    table = get_object(Table, table_id)
+    table = await get_object(Table, table_id)
 
     for reservation in table.reservations:
 

@@ -1,8 +1,7 @@
 from typing import Callable, Any
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeMeta, Session
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeMeta, Session, declarative_base
 
 Base: DeclarativeMeta = declarative_base()
 

@@ -12,15 +12,15 @@ tables_router = APIRouter()
 
 
 @tables_router.get("/tables/", response_model=List[TableSchema], tags=["Столики"])
-def get_tables():
+async def get_tables():
     """Ручка для получения столиков из БД."""
-    return get_data(Table)
+    return await get_data(Table)
 
 
 @tables_router.post("/tables/", response_model=TableSchema, tags=["Столики"])
-def add_table(data: CreateTableSchema):
+async def add_table(data: CreateTableSchema):
     """Ручка для добавления столика в БД."""
-    new_table = add_data(Table, data.dict())
+    new_table = await add_data(Table, data.model_dump())
     return TableSchema(**new_table.__dict__)
 
 
@@ -30,22 +30,22 @@ def add_table(data: CreateTableSchema):
     responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}, HTTP_409_CONFLICT: {"model": ErrorResponse}},
     tags=["Столики"]
 )
-def delete_table(table_id: int):
+async def delete_table(table_id: int):
     """Ручка для удаления столика из БД."""
 
-    table = get_object(Table, table_id)
+    table = await get_object(Table, table_id)
     if not table:
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND,
             detail="Столик не найден."
         )
 
-    if not check_table_reservation(table_id):
+    if not await check_table_reservation(table_id):
         raise HTTPException(
             status_code=HTTP_409_CONFLICT,
             detail="На данный момент бронь по столику активна, "
                    "дождитесь окончания брони либо удалите её, перед удалением столика."
         )
 
-    delete_data(Table, table_id)
+    await delete_data(Table, table_id)
     return {"message": "Столик удален."}
