@@ -12,7 +12,7 @@ from .utils import check_reservation_time
 reservations_router = APIRouter()
 
 
-@reservations_router.get("/reservations/", response_model=List[ReservationSchema])
+@reservations_router.get("/reservations/", response_model=List[ReservationSchema], tags=["Бронирование"])
 def get_reservations():
     """Ручка для получения списка бронь из БД."""
     return get_data(Reservation)
@@ -21,7 +21,8 @@ def get_reservations():
 @reservations_router.post(
     "/reservations/",
     response_model=ReservationSchema,
-    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}, HTTP_409_CONFLICT: {"model": ErrorResponse}}
+    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}, HTTP_409_CONFLICT: {"model": ErrorResponse}},
+    tags=["Бронирование"]
 )
 def add_reservation(data: CreateReservationSchema):
     """Ручка для добавления брони в БД."""
@@ -45,7 +46,8 @@ def add_reservation(data: CreateReservationSchema):
 @reservations_router.delete(
     "/reservations/{reservation_id}",
     response_model=DeleteSuccessResponse,
-    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}}
+    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}},
+    tags=["Бронирование"]
 )
 def delete_reservation(reservation_id: int):
     """Ручка для удаления брони из БД."""

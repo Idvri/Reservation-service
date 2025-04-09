@@ -1,6 +1,6 @@
 import datetime
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class CreateReservationSchema(BaseModel):
@@ -9,7 +9,7 @@ class CreateReservationSchema(BaseModel):
     customer_name: str
     table_id: int
     duration_minutes: int
-    reservation_time: datetime.datetime
+    reservation_time: datetime.datetime = Field(example="2025-04-10 18:00:00")
 
     @field_validator('customer_name', mode="before")
     @classmethod

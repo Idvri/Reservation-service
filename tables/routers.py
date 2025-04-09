@@ -11,15 +11,13 @@ from .utils import check_table_reservation
 tables_router = APIRouter()
 
 
-@tables_router.get(
-    "/tables/", response_model=List[TableSchema]
-)
+@tables_router.get("/tables/", response_model=List[TableSchema], tags=["Столики"])
 def get_tables():
     """Ручка для получения столиков из БД."""
     return get_data(Table)
 
 
-@tables_router.post("/tables/", response_model=TableSchema)
+@tables_router.post("/tables/", response_model=TableSchema, tags=["Столики"])
 def add_table(data: CreateTableSchema):
     """Ручка для добавления столика в БД."""
     new_table = add_data(Table, data.dict())
@@ -29,7 +27,8 @@ def add_table(data: CreateTableSchema):
 @tables_router.delete(
     "/tables/{table_id}",
     response_model=DeleteSuccessResponse,
-    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}, HTTP_409_CONFLICT: {"model": ErrorResponse}}
+    responses={HTTP_404_NOT_FOUND: {"model": ErrorResponse}, HTTP_409_CONFLICT: {"model": ErrorResponse}},
+    tags=["Столики"]
 )
 def delete_table(table_id: int):
     """Ручка для удаления столика из БД."""
